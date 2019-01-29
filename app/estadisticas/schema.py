@@ -1,13 +1,27 @@
+import graphene
+from graphene import relay, ObjectType
+from graphene_django import DjangoObjectType
+from graphene_django.filter import DjangoFilterConnectionField
+
 from estadisticas.models import Estadistica
-from graphene import ObjectType, Node, Schema
-from graphene_django.fields import DjangoConnectionField
-from graphene_django.types import DjangoObjectType
 
 class EstadisticaNode(DjangoObjectType):
     class Meta:
         model = Estadistica
-        interfaces = (Node, )
+        filter_fields = {
+            'nombre': ['exact','istartswith'],
+	        'creado_por': ['exact','istartswith'],
+	        'fecha_creacion': ['exact'],
+    	    'tipo_reporte': ['exact','istartswith'],
+        }
+        interfaces = (relay.Node, )
 
 class Query(ObjectType):
-    estadistica = Node.Field(EstadisticaNode)
-    all_estadisticas = DjangoConnectionField(EstadisticaNode)
+
+    estadisticas = relay.Node.Field(EstadisticaNode)
+    all_estadisticas = DjangoFilterConnectionField(EstadisticaNode)
+
+    def resolve_estadisticas(self):
+        return Estadistica.objects.all()
+
+schema = graphene.Schema(query=Query,)

@@ -25,7 +25,6 @@ schema_view = get_swagger_view(title='Statistics API')
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^graphql', GraphQLView.as_view(graphiql=True)),
-    path('', image_upload, name='upload'),
     url(r'^', include('reportes.urls')),
     url(r'^', include('tareas.urls')),
     url(r'^', include('estadisticas.urls')),

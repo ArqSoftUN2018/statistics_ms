@@ -45,8 +45,14 @@ INSTALLED_APPS = [
     'tareas',
     'estadisticas',
     'reportes',
-    'upload',
 ]
+
+GRAPHENE = {
+    'SCHEMA': 'estadisticas.schema.schema',
+    'MIDDLEWARE': (
+        'graphene_django.debug.DjangoDebugMiddleware',
+    )
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -91,10 +97,6 @@ DATABASES = {
         'HOST': os.getenv('SQL_HOST', 'localhost'),
         'PORT': os.getenv('SQL_PORT', '5432'),
     }
-}
-
-GRAPHENE = {
-    'SCHEMA': 'schema.schema'
 }
 
 # Password validation

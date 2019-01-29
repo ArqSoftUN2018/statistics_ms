@@ -5,3 +5,6 @@ class Estadistica(models.Model):
 	creado_por = models.CharField(max_length = 100)
 	fecha_creacion = models.DateTimeField(auto_now_add = True)
 	tipo_reporte = models.IntegerField()
+
+def __unicode__(self):
+	return "Nombre Reporte: {}" .format(self.nombre)
